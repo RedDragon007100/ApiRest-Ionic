@@ -1,14 +1,28 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { UserServiceProvider } from '../../providers/user-service/user-service';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
+  users: any[] = [];
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public UserServiceProvider: UserServiceProvider) {
 
+  }
+
+  ionViewDidLoad(){
+    this.UserServiceProvider.getUsers()
+    .subscribe(
+      (data) => { // Success
+        this.users = data['results'];
+      },
+      (error) =>{
+        console.error(error);
+      }
+    )
   }
 
 }
